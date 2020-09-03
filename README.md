@@ -5,7 +5,7 @@ DEMO
   
 [mpp_play_arの意味]  
 mpp = My Practice Project  
-play = 遊ぶ
+play = 遊ぶ  
 ar = Active Record     
     
 ## 1. 環境
