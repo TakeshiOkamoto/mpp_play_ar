@@ -60,7 +60,7 @@ app/assetsにimagesフォルダを手動で生成する。
 ```
 ※コレを行わないと「Completed 500 Internal Server Error」になりますのでご注意。  
     
-### CSVのイン🅂ポート
+### CSVのインポート
 各CSVはphpMyAdminなどを利用してインポートして下さい。 
     
 ### 実行する
