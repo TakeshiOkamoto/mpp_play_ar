@@ -1,0 +1,150 @@
+p
+h2 1. やること
+p
+
+div style="border: 2px solid #ccc;padding:5px;"
+  = raw '<span style="color:green;">/* 私の備忘録的なプロジェクトです。 */</span>'
+p  
+div style="border: 2px solid #ccc;padding:5px; "
+  ="今回は「モデル名.find_by_sql( )」で「生のSQL」を書かずに"
+  br 
+  = "Active Recordの「関連付け」(アソシエーション: association)で"
+  = raw "&nbsp;"  
+  = link_to 'INNER  JOIN',  play_inner_join_index_path
+  = raw "、"
+  = link_to 'LEFT JOIN',  play_left_join_index_path
+  = raw "&nbsp;"  
+  = "を行います。"
+p  
+div style="border: 2px solid #ccc;padding:5px; "
+  = "<注事事項>"
+  br
+  = raw '・テーブル定義の時点で<span style="color:red;">カラム名(???_id)</span><span style="vertical-align: super;">※1</span>を正しく設定しないと動作しません。'
+  br
+  = raw '・各モデルも<span style="color:red;">belongs_to、has_many、has_one</span>などの関連付けを行わないと動作しません。'
+  br
+  = "※1 関連対象のテーブル名の単数形に_idを付与する。(例)play_owner_id、play_category_id、play_article_id"
+
+p
+h2 2.テーブル(INNER JOIN用)
+p
+
+p = "複数のRailsデモプロジェクトが同時起動しているのでテーブル名の接頭語に「 play_ 」を付与しています。"
+
+div.card-columns 
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "飼い主(play_owners)"
+    div.card-body
+      img src="/mpp_play_ar_1.png"
+
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "猫(play_cats)"
+    div.card-body
+      img src="/mpp_play_ar_2.png"
+   
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "都道府県(play_prefectures)"
+    div.card-body
+      img src="/mpp_play_ar_3.png"
+            
+p
+h2 3.テーブル(LEFT JOIN用)
+p
+            
+div.card-columns 
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "カテゴリ(play_categories)"
+    div.card-body
+      img src="/mpp_play_ar_4.png"
+
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "記事(play_articles)"
+    div.card-body style="padding-left:10px;"
+      img src="/mpp_play_ar_5.png"
+   
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "アクセス数(play_accesses)"
+    div.card-body
+      img src="/mpp_play_ar_6.png"
+                  
+   
+div.card-columns 
+  div.card 
+    div.card-header.bg-primary.text-white
+      = "著者(play_authors)"
+    div.card-body
+      img src="/mpp_play_ar_7.png"
+
+
+p
+h2 4. モデル
+p
+
+pre
+  |
+    <span style="color:green;">--- INNER JOIN ---</span>
+    <span style="color:green;">※has_oneのモデル名は単数形</span>
+    <span style="color:orange;">※ココのhas_oneはhas_many、belongs_toに変更可能</span>
+
+    <span style="color:green;">// play_owner.rb</span>
+    class PlayOwner < ApplicationRecord
+      has_one :play_cat
+      has_one :play_prefecture  
+    end
+
+    <span style="color:green;">// play_cat.rb</span>
+    class PlayCat < ApplicationRecord
+    end
+
+    <span style="color:green;">// play_prefecture.rb</span>
+    class PlayPrefecture < ApplicationRecord
+    end
+
+    <span style="color:blue;">--- LEFT JOIN ---</span>
+    <span style="color:blue;">※モデル名の単数形、複数形に注意</span>
+    
+    <span style="color:blue;">// play_category.rb</span>
+    class PlayCategory < ApplicationRecord
+       has_many :play_articles
+    end
+
+    <span style="color:blue;">// play_article.rb</span>
+    class PlayArticle < ApplicationRecord
+      belongs_to :play_category
+      has_many :play_accesses
+      has_many :play_authors  
+    end
+
+    <span style="color:blue;">// play_access.rb</span>
+    class PlayAccess < ApplicationRecord
+      belongs_to :play_article
+    end
+
+    <span style="color:blue;">// play_author.rb</span>
+    class PlayAuthor < ApplicationRecord
+      belongs_to :play_article
+    end
+p
+
+p
+h2 5. 参考サイト
+p
+
+p 
+  = "<Active Record の関連付け>"
+  br  
+  = raw '<a href="https://railsguides.jp/association_basics.html">Active Recordの関連付け(アソシエーション: association)</a> (Railsガイド)<br>'
+
+p  
+  = "<Active RecordのDB操作>"
+  br
+  = raw '<a href="https://qiita.com/ryokky59/items/a1d0b4e86bacbd7ef6e8">RailsのActive Recordの解説&メソッドまとめ</a> (Qiita)<br>'
+  = raw '<a href="https://qiita.com/leon-joel/items/ab39f46cb374f57f7481">ActiveRecord CRUDサンプル</a> (Qiita)<br>'
+  br
+

@@ -1,0 +1,2 @@
+class PlayCat < ApplicationRecord
+end

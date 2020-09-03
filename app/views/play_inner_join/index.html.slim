@@ -1,0 +1,69 @@
+- provide(:title, 'INNER JOIN')
+
+p
+h2 INNER JOIN
+p 
+
+p
+h3 1. INNER JOINを1個
+p 
+
+img src="/mpp_play_ar_11.png"
+p
+
+span.badge.badge-primary = "Ruby on Railsのコード"
+p
+pre
+ |
+   PlayOwner.joins(:play_cat).where(id: 2)
+     .select(:id, :name, 'play_cats.name as cat_name')
+
+p
+span.badge.badge-primary = "生成されるSQL"  
+p style="color:green;" = @inner1_sql
+
+table.table.table-hover
+  thead.thead-default
+    tr
+      th = '飼い主(id)'    
+      th = "飼い主"
+      th = "猫名"      
+  tbody      
+    - @inner1.each_with_index  do |inner, i|
+      tr 
+        td = inner.id
+        td = inner.name
+        td = inner.cat_name
+        
+p
+h3 2. INNER JOINを2個
+p 
+
+img src="/mpp_play_ar_12.png"
+p
+
+span.badge.badge-primary = "Ruby on Railsのコード"
+p
+pre
+ |
+   PlayOwner.joins(:play_cat, :play_prefecture).where(id: 2)
+    .select(:id, :name, 'play_cats.name as cat_name', 'play_prefectures.name as prefecture_name')
+p 
+span.badge.badge-primary = "生成されるSQL"    
+p style="color:green;" = @inner2_sql
+
+table.table.table-hover
+  thead.thead-default
+    tr
+      th = '飼い主(id)'    
+      th = "飼い主"
+      th = "猫名"  
+      th = "都道府県"        
+  tbody      
+    - @inner2.each_with_index  do |inner, i|
+      tr 
+        td = inner.id
+        td = inner.name
+        td = inner.cat_name
+        td = inner.prefecture_name
+     

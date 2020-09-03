@@ -1,0 +1,104 @@
+- provide(:title, 'LEFT JOIN')
+
+p
+h2 LEFT JOIN
+p 
+
+p
+h3 1. LEFT JOINを1個(親子)
+p 
+
+img src="/mpp_play_ar_8.png"
+p
+
+span.badge.badge-primary = "Ruby on Railsのコード"
+p
+pre
+ |
+   PlayArticle.left_joins(:play_category)
+    .select(:id, :title, 'play_categories.name as category_name') 
+
+p
+span.badge.badge-primary = "生成されるSQL"  
+p style="color:green;" = @left1_sql
+
+table.table.table-hover
+  thead.thead-default
+    tr
+      th = '記事(id)'    
+      th = "記事名"
+      th = "カテゴリ"      
+  tbody      
+    - @left1.each_with_index  do |left, i|
+      tr 
+        td = left.id
+        td = left.title
+        td = left.category_name
+
+p
+h3 2. LEFT JOINを2個(親子子)
+p 
+
+img src="/mpp_play_ar_9.png"
+p
+
+span.badge.badge-primary = "Ruby on Railsのコード"
+p
+pre
+ |
+   PlayArticle.left_joins(:play_authors, :play_accesses)
+     .select(:id, :title, :name, :value)
+
+p
+span.badge.badge-primary = "生成されるSQL"  
+p style="color:green;" = @left2_sql
+
+table.table.table-hover
+  thead.thead-default
+    tr
+      th = '記事(id)'    
+      th = "記事名"
+      th = "著者"
+      th = "アクセス数"
+
+  tbody      
+    - @left2.each_with_index  do |left, i|
+      tr 
+        td = left.id
+        td = left.title
+        td = left.name  
+        td = left.value
+        
+p
+h3 3. LEFT JOINを2個(親子孫)
+p 
+
+img src="/mpp_play_ar_10.png"
+p
+
+span.badge.badge-primary = "Ruby on Railsのコード"
+p
+pre
+  |
+    PlayArticle.left_joins(:play_category, :play_accesses)
+      .select(:id, :title, :name, :value)
+p
+span.badge.badge-primary = "生成されるSQL"  
+p style="color:green;" = @left3_sql
+
+table.table.table-hover
+  thead.thead-default
+    tr
+      th = '記事(id)'    
+      th = "記事名"
+      th = "カテゴリ"
+      th = "アクセス数"
+
+  tbody      
+    - @left3.each_with_index  do |left, i|
+      tr 
+        td = left.id
+        td = left.title
+        td = left.name   
+        td = left.value
+            
